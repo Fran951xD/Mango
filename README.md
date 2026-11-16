@@ -2,7 +2,7 @@
 
 El dólar, la inflación y las tasas de Argentina, con calculadoras para decidir qué hacer con tus pesos.
 
-**[Abrir Mango →](https://TU-USUARIO.github.io/mango/)**
+**[Abrir Mango →](https://fran951xd.github.io/Mango/)**
 
 ![Pantalla de inicio de Mango](docs/inicio.png)
 
@@ -62,7 +62,7 @@ Cada cálculo se puede **compartir con un enlace**: la dirección guarda el mont
 Requiere Node 22 o superior para los tests y cualquier servidor estático.
 
 ```bash
-git clone https://github.com/TU-USUARIO/mango.git
+git clone https://github.com/Fran951xD/mango.git
 cd mango
 npm run dev    # http://localhost:5173
 npm test
@@ -91,6 +91,6 @@ Ambas son gratuitas y abiertas. La información es orientativa y no es una recom
 
 ## Autor
 
-**Tu Nombre** · [LinkedIn](https://linkedin.com/in/TU-USUARIO) · [GitHub](https://github.com/TU-USUARIO)
+**Fran951xD** · [LinkedIn](https://linkedin.com/in/Fran951xD) · [GitHub](https://github.com/Fran951xD)
 
 Código bajo licencia MIT.
