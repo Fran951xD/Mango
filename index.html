@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mango: el dólar, la inflación y las tasas, para decidir qué hacer con tus pesos</title>
+  <meta name="description" content="Cotizaciones del dólar en vivo, conversor, calculadora de inflación para alquileres y sueldos, comparador de inversiones y tasas de plazo fijo y billeteras en Argentina.">
+  <meta name="theme-color" content="#0f2740">
+  <meta property="og:title" content="Mango">
+  <meta property="og:description" content="El dólar, la inflación y las tasas de Argentina, con calculadoras para decidir qué hacer con tus pesos.">
+  <meta property="og:type" content="website">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="assets/icono.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/heros-cn-bold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="fonts/inter-regular.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Ir al contenido</a>
+
+  <header class="barra">
+    <div class="barra__interior">
+      <a class="marca" href="./" aria-label="Mango, inicio">mango</a>
+      <nav aria-label="Secciones">
+        <ul class="nav">
+          <li><a href="#hoy">Dólar hoy</a></li>
+          <li><a href="#inflacion">Inflación</a></li>
+          <li><a href="#ahorro">Ahorros</a></li>
+          <li><a href="#tasas">Tasas</a></li>
+          <li><a href="#mercado">Mercado</a></li>
+        </ul>
+      </nav>
+      <p id="estado" class="estado" data-estado="cargando" role="status">Cargando</p>
+    </div>
+  </header>
+
+  <div id="aviso" class="aviso" role="alert" hidden>
+    <p id="aviso-texto"></p>
+    <button id="reintentar" class="boton boton--chico" type="button">Reintentar</button>
+  </div>
+
+  <main id="contenido">
+    <!-- Dólar hoy -->
+    <section id="hoy" class="hoy" aria-labelledby="t-hoy">
+      <div class="hoy__intro">
+        <h1 id="t-hoy">Cuánto vale tu plata hoy</h1>
+        <p class="bajada">El dólar en vivo y calculadoras para decidir qué hacer con tus pesos: actualizar un alquiler, comparar dónde ahorrar o elegir un plazo fijo.</p>
+      </div>
+
+      <div class="hoy__grilla">
+        <figure id="pizarra" class="pizarra" aria-labelledby="pizarra-titulo">
+          <figcaption class="pizarra__cabecera">
+            <h2 id="pizarra-titulo">Cotizaciones del dólar</h2>
+            <p id="pizarra-hora" class="pizarra__hora"></p>
+          </figcaption>
+          <div class="pizarra__marco">
+            <table class="pizarra__tabla">
+              <thead>
+                <tr>
+                  <th scope="col"><span class="solo-lectores">Tipo de dólar</span></th>
+                  <th scope="col">Compra</th>
+                  <th scope="col">Venta</th>
+                  <th scope="col"><abbr title="Diferencia con el dólar oficial">Brecha</abbr></th>
+                  <th scope="col">Hoy</th>
+                </tr>
+              </thead>
+              <tbody id="pizarra-filas">
+                <tr class="pizarra__cargando"><td colspan="5">Cargando cotizaciones</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </figure>
+
+        <section class="conversor" aria-labelledby="t-conv">
+          <h2 id="t-conv">Convertir</h2>
+          <div class="campo">
+            <label for="conv-monto">Tengo</label>
+            <div class="entrada-monto">
+              <input id="conv-monto" type="text" inputmode="decimal" autocomplete="off" spellcheck="false">
+              <span id="conv-moneda" class="entrada-monto__moneda">pesos</span>
+            </div>
+          </div>
+          <div class="conversor__fila">
+            <div class="campo">
+              <label for="conv-casa">Al precio del dólar</label>
+              <select id="conv-casa"></select>
+            </div>
+            <button id="conv-invertir" class="boton-icono" type="button">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 4v14m0 0-3-3m3 3 3-3M17 20V6m0 0-3 3m3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="conversor__resultado" aria-live="polite">
+            <p class="conversor__etiqueta">Recibís</p>
+            <p id="conv-resultado" class="cifra-grande">—</p>
+            <p id="conv-detalle" class="detalle"></p>
+          </div>
+          <div class="conversor__otros">
+            <p class="conversor__etiqueta" id="t-conv-otros">Con otros tipos de dólar</p>
+            <ul id="conv-otros" aria-labelledby="t-conv-otros"></ul>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Inflación -->
+    <section id="inflacion" class="banda" aria-labelledby="t-infl">
+      <div class="herramienta">
+        <div class="herramienta__panel">
+          <h2 id="t-infl">Actualizar un monto por inflación</h2>
+          <p class="bajada">Para saber cuánto debería ser hoy un alquiler, un sueldo o un precio que tenías anotado.</p>
+
+          <div class="campo">
+            <label for="infl-monto">Monto</label>
+            <div class="entrada-monto">
+              <input id="infl-monto" type="text" inputmode="decimal" autocomplete="off">
+              <span class="entrada-monto__moneda">pesos</span>
+            </div>
+          </div>
+          <fieldset class="campo campo--mes">
+            <legend>Era el monto de</legend>
+            <div class="par">
+              <label class="solo-lectores" for="infl-desde-mes">Mes de origen</label>
+              <select id="infl-desde-mes"></select>
+              <label class="solo-lectores" for="infl-desde-anio">Año de origen</label>
+              <select id="infl-desde-anio"></select>
+            </div>
+          </fieldset>
+          <fieldset class="campo campo--mes">
+            <legend>Lo quiero en pesos de</legend>
+            <div class="par">
+              <label class="solo-lectores" for="infl-hasta-mes">Mes de destino</label>
+              <select id="infl-hasta-mes"></select>
+              <label class="solo-lectores" for="infl-hasta-anio">Año de destino</label>
+              <select id="infl-hasta-anio"></select>
+            </div>
+          </fieldset>
+          <div class="atajos" id="infl-atajos" role="group" aria-label="Atajos de período">
+            <button type="button" data-meses="6">Hace 6 meses</button>
+            <button type="button" data-meses="12">Hace un año</button>
+            <button type="button" data-meses="24">Hace dos años</button>
+            <button type="button" data-meses="enero">Desde enero</button>
+          </div>
+          <p id="infl-ultimo" class="nota"></p>
+        </div>
+
+        <div class="herramienta__resultado" aria-live="polite">
+          <p class="conversor__etiqueta">Equivale a</p>
+          <p id="infl-resultado" class="cifra-grande cifra-grande--xl">—</p>
+          <p id="infl-frase" class="frase"></p>
+          <div id="infl-grafico" class="herramienta__grafico" data-alto="220"></div>
+          <div class="acciones">
+            <button id="infl-copiar" class="boton boton--secundario" type="button">Copiar resultado y enlace</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ahorros -->
+    <section id="ahorro" class="banda banda--papel" aria-labelledby="t-ahorro">
+      <div class="herramienta">
+        <div class="herramienta__panel">
+          <h2 id="t-ahorro">¿Dónde rindió más tu plata?</h2>
+          <p class="bajada">Elegí un monto y una fecha: te mostramos cuánto tendrías hoy si lo ponías en dólares, en un plazo fijo UVA o si lo dejabas en pesos.</p>
+
+          <div class="campo">
+            <label for="ahorro-monto">Monto</label>
+            <div class="entrada-monto">
+              <input id="ahorro-monto" type="text" inputmode="decimal" autocomplete="off">
+              <span class="entrada-monto__moneda">pesos</span>
+            </div>
+          </div>
+          <div class="campo">
+            <label for="ahorro-fecha">Invertido el</label>
+            <input id="ahorro-fecha" type="date">
+          </div>
+          <div class="atajos" id="ahorro-atajos" role="group" aria-label="Atajos de fecha">
+            <button type="button" data-meses="6">Hace 6 meses</button>
+            <button type="button" data-meses="12">Hace un año</button>
+            <button type="button" data-meses="36">Hace 3 años</button>
+            <button type="button" data-meses="60">Hace 5 años</button>
+          </div>
+          <p class="nota">No incluye impuestos ni comisiones. El plazo fijo tradicional no aparece porque no hay un histórico público de sus tasas.</p>
+        </div>
+
+        <div class="herramienta__resultado">
+          <p id="ahorro-resumen" class="frase frase--grande" aria-live="polite"></p>
+          <ol id="ahorro-ranking" class="ranking"></ol>
+        </div>
+      </div>
+
+      <figure class="figura figura--ancha">
+        <figcaption>
+          <h3>Cómo fue cambiando el valor en pesos</h3>
+          <p id="ahorro-hasta" class="nota"></p>
+        </figcaption>
+        <ul class="leyenda" aria-label="Referencias">
+          <li class="serie-2">Dólar blue</li>
+          <li class="serie-3">Dólar MEP</li>
+          <li class="serie-1">Dólar oficial</li>
+          <li class="serie-4">Plazo fijo UVA</li>
+          <li class="serie-referencia">Inflación (para no perder)</li>
+        </ul>
+        <div id="ahorro-grafico" data-alto="300"></div>
+        <details class="ver-tabla">
+          <summary>Ver los resultados en una tabla</summary>
+          <div id="ahorro-tabla"></div>
+        </details>
+        <div class="acciones">
+          <button id="ahorro-copiar" class="boton boton--secundario" type="button">Copiar resultado y enlace</button>
+        </div>
+      </figure>
+    </section>
+
+    <!-- Tasas -->
+    <section id="tasas" class="banda" aria-labelledby="t-tasas">
+      <div class="cabecera-seccion">
+        <h2 id="t-tasas">Plazo fijo y billeteras hoy</h2>
+        <p class="bajada">Quién paga más por tus pesos y si le gana a la inflación del último mes.</p>
+      </div>
+
+      <div class="simulador" role="group" aria-label="Simulador">
+        <div class="campo">
+          <label for="tasas-monto">Si pongo</label>
+          <div class="entrada-monto">
+            <input id="tasas-monto" type="text" inputmode="decimal" autocomplete="off">
+            <span class="entrada-monto__moneda">pesos</span>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="tasas-dias">Durante</label>
+          <select id="tasas-dias">
+            <option value="30" selected>30 días</option>
+            <option value="60">60 días</option>
+            <option value="90">90 días</option>
+            <option value="180">180 días</option>
+            <option value="365">Un año</option>
+          </select>
+        </div>
+        <div class="campo campo--crece">
+          <label for="tasas-buscar">Buscar entidad</label>
+          <input id="tasas-buscar" type="search" placeholder="Nación, Galicia, Mercado Pago…" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="pestanias" id="tasas-pestanias" role="tablist" aria-label="Tipo de inversión">
+        <button type="button" role="tab" id="tab-plazo" aria-controls="panel-plazo" aria-selected="true" data-valor="plazo">Plazo fijo</button>
+        <button type="button" role="tab" id="tab-billeteras" aria-controls="panel-billeteras" aria-selected="false" data-valor="billeteras">Billeteras y cuentas</button>
+      </div>
+
+      <div id="panel-plazo" role="tabpanel" aria-labelledby="tab-plazo" class="tabla-contenedor" tabindex="0">
+        <table class="tabla-tasas">
+          <thead>
+            <tr>
+              <th scope="col">Entidad</th>
+              <th scope="col" class="num"><abbr title="Tasa nominal anual">TNA</abbr></th>
+              <th scope="col" class="num" data-columna-dias>Ganás en 30 días</th>
+              <th scope="col" class="num">Tenés al final</th>
+              <th scope="col">Contra la inflación</th>
+            </tr>
+          </thead>
+          <tbody id="tasas-plazo-filas"></tbody>
+        </table>
+      </div>
+      <div id="panel-billeteras" role="tabpanel" aria-labelledby="tab-billeteras" class="tabla-contenedor" tabindex="0" hidden>
+        <table class="tabla-tasas">
+          <thead>
+            <tr>
+              <th scope="col">Entidad</th>
+              <th scope="col" class="num"><abbr title="Rendimiento anual efectivo">TEA</abbr></th>
+              <th scope="col" class="num" data-columna-dias>Ganás en 30 días</th>
+              <th scope="col" class="num">Tenés al final</th>
+              <th scope="col">Contra la inflación</th>
+            </tr>
+          </thead>
+          <tbody id="tasas-billeteras-filas"></tbody>
+        </table>
+      </div>
+      <p id="tasas-referencia" class="nota"></p>
+    </section>
+
+    <!-- Mercado -->
+    <section id="mercado" class="banda banda--papel" aria-labelledby="t-mercado">
+      <div class="cabecera-seccion cabecera-seccion--con-filtro">
+        <div>
+          <h2 id="t-mercado">Mercado</h2>
+          <p class="bajada">La evolución del dólar, la brecha, la inflación y el riesgo país.</p>
+        </div>
+        <div class="filtro">
+          <span id="t-periodo" class="filtro__etiqueta">Período</span>
+          <div id="mercado-periodo" class="segmentado" role="radiogroup" aria-labelledby="t-periodo">
+            <button type="button" role="radio" data-valor="3m" aria-checked="false">3 meses</button>
+            <button type="button" role="radio" data-valor="6m" aria-checked="false">6 meses</button>
+            <button type="button" role="radio" data-valor="1a" aria-checked="true">1 año</button>
+            <button type="button" role="radio" data-valor="3a" aria-checked="false">3 años</button>
+            <button type="button" role="radio" data-valor="5a" aria-checked="false">5 años</button>
+            <button type="button" role="radio" data-valor="todo" aria-checked="false">Todo</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mercado">
+        <figure class="figura figura--principal">
+          <figcaption>
+            <h3>Dólar</h3>
+            <p class="nota">Precio de venta en pesos.</p>
+          </figcaption>
+          <p id="c-dolar" class="cifra"></p>
+          <ul class="leyenda" aria-label="Referencias">
+            <li class="serie-1">Oficial</li>
+            <li class="serie-2">Blue</li>
+            <li class="serie-3">MEP</li>
+          </ul>
+          <div id="g-dolar" data-alto="320"></div>
+          <details class="ver-tabla"><summary>Ver los datos</summary><div id="t-dolar"></div></details>
+        </figure>
+
+        <figure class="figura">
+          <figcaption>
+            <h3>Brecha con el oficial</h3>
+            <p class="nota">Cuánto más caro está cada dólar que el oficial.</p>
+          </figcaption>
+          <p id="c-brecha" class="cifra"></p>
+          <ul class="leyenda" aria-label="Referencias">
+            <li class="serie-2">Blue</li>
+            <li class="serie-3">MEP</li>
+          </ul>
+          <div id="g-brecha" data-alto="240"></div>
+          <details class="ver-tabla"><summary>Ver los datos</summary><div id="t-brecha"></div></details>
+        </figure>
+
+        <figure class="figura">
+          <figcaption class="figura__cabecera-control">
+            <div>
+              <h3>Inflación</h3>
+              <p class="nota">Índice de precios al consumidor del INDEC.</p>
+            </div>
+            <div id="mercado-inflacion" class="segmentado segmentado--chico" role="radiogroup" aria-label="Tipo de inflación">
+              <button type="button" role="radio" data-valor="mensual" aria-checked="true">Mensual</button>
+              <button type="button" role="radio" data-valor="interanual" aria-checked="false">En 12 meses</button>
+            </div>
+          </figcaption>
+          <p id="c-inflacion" class="cifra"></p>
+          <div id="g-inflacion" data-alto="240"></div>
+          <details class="ver-tabla"><summary>Ver los datos</summary><div id="t-inflacion"></div></details>
+        </figure>
+
+        <figure class="figura">
+          <figcaption>
+            <h3>Riesgo país</h3>
+            <p class="nota">Sobretasa de los bonos argentinos frente a los de Estados Unidos, en puntos básicos.</p>
+          </figcaption>
+          <p id="c-riesgo" class="cifra"></p>
+          <div id="g-riesgo" data-alto="240"></div>
+          <details class="ver-tabla"><summary>Ver los datos</summary><div id="t-riesgo"></div></details>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Método -->
+    <section id="metodo" class="metodo" aria-labelledby="t-metodo">
+      <h2 id="t-metodo">Cómo calculamos</h2>
+      <dl class="metodo__lista">
+        <div>
+          <dt>Comprar y vender dólares</dt>
+          <dd>Cuando comprás dólares pagás el precio de venta; cuando los vendés te dan el de compra. El conversor y el comparador usan el precio que corresponde, así que la diferencia entre ambos ya está descontada.</dd>
+        </div>
+        <div>
+          <dt>Actualizar por inflación</dt>
+          <dd>Un monto de marzo, llevado a septiembre, acumula la inflación de abril a septiembre. Las tasas se componen mes a mes: dos meses de 2 % dan 4,04 %, no 4 %.</dd>
+        </div>
+        <div>
+          <dt>Plazo fijo y billeteras</dt>
+          <dd>El plazo fijo usa interés simple sobre la TNA. Las billeteras informan un rendimiento anual efectivo, que llevamos a los días que elijas. Para saber si le gana a la inflación comparamos con la del último mes publicado.</dd>
+        </div>
+        <div>
+          <dt>De dónde salen los datos</dt>
+          <dd>Las cotizaciones del día vienen de <a href="https://dolarapi.com" rel="noopener">DolarApi</a>; los históricos, la inflación del INDEC, el índice UVA, el riesgo país y las tasas, de <a href="https://argentinadatos.com" rel="noopener">ArgentinaDatos</a>. Las cotizaciones se actualizan solas cada cinco minutos.</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="pie__interior">
+      <p class="marca marca--chica">mango</p>
+      <p>La información es orientativa y no es una recomendación de inversión.</p>
+      <p>Hecho por <a href="https://github.com/TU-USUARIO">Tu Nombre</a>. <a href="https://github.com/TU-USUARIO/mango">Código fuente</a>. <a href="?demo=1">Ver con datos de ejemplo</a>.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

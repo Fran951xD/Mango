@@ -1,0 +1,14 @@
+{
+  "name": "mango",
+  "version": "1.0.0",
+  "description": "El dólar, la inflación y las tasas de Argentina, con calculadoras para decidir qué hacer con tus pesos.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 5173",
+    "test": "node --test \"tests/**/*.test.js\"",
+    "demo:generar": "node scripts/generar-demo.mjs"
+  },
+  "engines": { "node": ">=22" },
+  "license": "MIT"
+}
