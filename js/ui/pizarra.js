@@ -17,7 +17,10 @@ function cambioDelDia(dato, serie) {
 }
 
 function celdaCambio(cambio) {
-  if (cambio == null) return el('td', { class: 'pizarra__cambio' }, el('span', { class: 'solo-lectores' }, 'sin dato'));
+  if (cambio == null) {
+    return el('td', { class: 'pizarra__cambio', title: 'Sin cierre anterior para comparar' },
+      el('span', { 'aria-hidden': 'true' }, '—'), el('span', { class: 'solo-lectores' }, 'sin dato'));
+  }
   const plano = Math.abs(cambio) < 0.05;
   const simbolo = plano ? '=' : cambio > 0 ? '▲' : '▼';
   const clase = plano ? '' : cambio > 0 ? 'sube' : 'baja';
